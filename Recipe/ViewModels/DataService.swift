@@ -20,6 +20,13 @@ class DataService {
             let recipes: [Recipe] = try decoder.decode([Recipe].self, from: data)
             recipes.forEach { recipes in
                 recipes.id = UUID()
+                let ingredients = recipes.ingredients
+                if ingredients.isEmpty {
+                    return
+                }
+                ingredients.forEach { ingredient in
+                    ingredient.id = UUID()
+                }
             }
             return recipes
         } catch {
