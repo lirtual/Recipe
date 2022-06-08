@@ -21,6 +21,20 @@ class Recipe: Identifiable, Decodable{
     var directions:[String]
     var highlights: [String]
     
+    func getHighlightsString() -> String {
+        var highlightsString = ""
+        if self.highlights.isEmpty {
+            return highlightsString
+        }
+        for index in 0 ..< highlights.count {
+            highlightsString.append(contentsOf: highlights[index])
+            if index < highlights.count - 1 {
+                highlightsString.append(contentsOf: ", ")
+            }
+        }
+        return highlightsString
+    }
+    
     class Ingredient: Identifiable, Decodable {
         var id: UUID?
         var name:String
