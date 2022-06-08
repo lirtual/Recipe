@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RecipeAppView: View {
     var body: some View {
-        RecipeListView()
+        RecipeTabView()
+            .environmentObject(RecipeModel())
     }
 }
 

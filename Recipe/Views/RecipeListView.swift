@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct RecipeListView: View {
-    @ObservedObject var recipeModel:RecipeModel
-    
-    init(){
-        self.recipeModel = RecipeModel()
-    }
+    @EnvironmentObject var recipeModel:RecipeModel
     
     var body: some View {
         NavigationView{
             VStack(alignment: .leading) {
                 // MARK: Titile
                 Text("All Recipes")
-                    .font(.largeTitle)
+                    .font(Font.custom("Avenir Heavy", size: 24))
                     .bold()
                 
                 ScrollView{
@@ -38,11 +34,11 @@ struct RecipeListView: View {
                                     VStack (alignment: .leading) {
                                         Text(recipe.name)
                                             .foregroundColor(.black)
-                                            .font(.headline)
+                                            .font(Font.custom("Avenir Heavy", size: 16))
                                             .padding(.bottom, 1)
                                         Text(recipe.getHighlightsString())
                                             .foregroundColor(.gray)
-                                            .font(.caption)
+                                            .font(Font.custom("Avenir", size: 14))
                                     }
                                 }
                             }
@@ -62,5 +58,6 @@ struct RecipeListView: View {
 struct RecipeListView_Previews: PreviewProvider {
     static var previews: some View {
         RecipeListView()
+            .environmentObject(RecipeModel())
     }
 }

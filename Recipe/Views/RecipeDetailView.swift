@@ -22,42 +22,51 @@ struct RecipeDetailView: View {
                         .frame(width: geo.size.width, height: 280)
                         .clipped()
                     
-                    HStack {
-                        Text("Select your serving size: ")
-                        Picker("Picker", selection: $selectedIndex){
-                            ForEach(servingSelections, id: \.self){ servingSelection in
-                                Text(String(servingSelection)).tag(servingSelection)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(width: 150)
-                    }.padding()
-                    
                     VStack (alignment: .leading){
-                        Text("Ingredients")
-                            .font(.title2)
+                        Text(recipe.name)
+                            .font(Font.custom("Avenir Heavy", size: 24))
                             .bold()
-                            .padding(.vertical , 5)
-                        ForEach(recipe.ingredients) { ingredient in
-                            Text(" ·  \(ingredient.getPortion(recipeServings: recipe.servings, targetServings: selectedIndex)) \(ingredient.name)")
-                                .padding(.bottom , 1)
-                        }
-                        .padding(.horizontal, 5)
                         
-                        Divider()
-                        
-                        Text("Directions")
-                            .font(.title2)
-                            .bold()
-                            .padding(.vertical , 5)
-                        ForEach(0 ..< recipe.directions.count , id: \.self) { index in
-                            Text(String(index + 1) + ". " + recipe.directions[index])
-                                .padding(.bottom , 1)
+                        HStack {
+                            Text("Select your serving size: ")
+                                .font(Font.custom("Avenir", size: 16))
+                            Picker("Picker", selection: $selectedIndex){
+                                ForEach(servingSelections, id: \.self){ servingSelection in
+                                    Text(String(servingSelection))
+                                        .font(Font.custom("Avenir", size: 14))
+                                        .tag(servingSelection)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .frame(width: 150)
                         }
-                        .padding(.horizontal, 5)
-                    }.padding(.leading, 10)
+                        
+                        VStack (alignment: .leading){
+                            Text("Ingredients")
+                                .font(Font.custom("Avenir Heavy", size: 20))
+                                .padding(.vertical , 5)
+                            ForEach(recipe.ingredients) { ingredient in
+                                Text(" ·  \(ingredient.getPortion(recipeServings: recipe.servings, targetServings: selectedIndex)) \(ingredient.name)")
+                                    .font(Font.custom("Avenir", size: 14))
+                                    .padding(.bottom , 1)
+                            }
+                            
+                            Divider()
+                            
+                            Text("Directions")
+                                .font(Font.custom("Avenir Heavy", size: 20))
+                                .padding(.vertical , 5)
+                            ForEach(0 ..< recipe.directions.count , id: \.self) { index in
+                                Text(String(index + 1) + ". " + recipe.directions[index])
+                                    .font(Font.custom("Avenir", size: 14))
+                                    .padding(.bottom , 1)
+                            }
+                            .padding(.horizontal, 5)
+                        }
+                    }
+                    .padding()
                 }
-            }.navigationBarTitle(recipe.name)
+            }
         }
     }
 }
