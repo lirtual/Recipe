@@ -9,18 +9,29 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     var recipe:Recipe
+    @State var selectedIndex:Int = 2
+    let servingSelections:[Int] = [2, 4, 6, 8]
     
     var body: some View {
         GeometryReader { geo in
             ScrollView{
                 VStack (alignment: .leading){
-                    ZStack {
-                        Image(recipe.image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: geo.size.width, height: 280)
-                            .clipped()
-                    }
+                    Image(recipe.image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geo.size.width, height: 280)
+                        .clipped()
+                    
+                    HStack {
+                        Text("Select your serving size: ")
+                        Picker("Picker", selection: $selectedIndex){
+                            ForEach(servingSelections, id: \.self){ servingSelection in
+                                Text(String(servingSelection)).tag(servingSelection)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 150)
+                    }.padding()
                     
                     VStack (alignment: .leading){
                         Text("Ingredients")
@@ -28,7 +39,7 @@ struct RecipeDetailView: View {
                             .bold()
                             .padding(.vertical , 5)
                         ForEach(recipe.ingredients) { ingredient in
-                            Text(" ·  " + ingredient.name)
+                            Text(" ·  \(ingredient.getPortion(recipeServings: recipe.servings, targetServings: selectedIndex)) \(ingredient.name)")
                                 .padding(.bottom , 1)
                         }
                         .padding(.horizontal, 5)
